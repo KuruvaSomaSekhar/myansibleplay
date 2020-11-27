@@ -1,0 +1,21 @@
+---
+- name: install tomcat
+  hosts: all
+  become: true
+
+  tasks:
+  - name: install java
+    yum:
+        name: java
+        state: latest
+  - name: download tomcat 
+    get_url:
+        url: https://mirrors.estointernet.in/apache/tomcat/tomcat-7/v7.0.107/bin/apache-tomcat-7.0.107.tar.gz
+        dest: /usr/local
+  - name: extract tar
+    unarchive:
+            src: /usr/local/apache-tomcat-7.0.107.tar.gz
+            dest: /usr/local
+            remote_src: yes 
+  - name: start tomcat service 
+    shell: nohup /usr/local/apache-tomcat-7.0.107/bin/startup.sh   
